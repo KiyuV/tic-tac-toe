@@ -40,10 +40,10 @@ class TicTacToe
     lines.push([@board[0], @board[4], @board[8]].join(''))
     lines.push([@board[2], @board[4], @board[6]].join(''))
 
-    if lines.include?("XXX")
+    if lines.include?('XXX')
       puts "#{@player1} Wins!"
       true
-    elsif lines.include?("OOO")
+    elsif lines.include?('OOO')
       puts "#{@player2} Wins!"
       true
     else
@@ -76,15 +76,13 @@ players = [game.player1, game.player2]
   puts "Your turn, #{players[current_player]}!"
   position = gets.chomp.to_i
   # prompts user until the input is a square that is not used
-  while position != game.board[position-1].to_i
+  while position != game.board[position - 1].to_i
     puts 'Please enter a valid position:'
     position = gets.chomp.to_i
   end
   game.player_input(position)
   # To alternate between the 2 players
   current_player = current_player.zero? ? 1 : 0
-  if game.winner?
-    exit
-  end
+  exit if game.winner?
 end
-puts "Draw!"
+puts 'Draw!'
