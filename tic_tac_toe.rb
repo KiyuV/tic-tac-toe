@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TicTacToe
-  attr_reader :player1, :player2
+  attr_reader :player1, :player2, :board
 
   def initialize(player1, player2)
     @board = %w[1 2 3 4 5 6 7 8 9]
@@ -26,6 +26,31 @@ class TicTacToe
     to_s
   end
 
+  def winner?
+    lines = []
+    # horizontal lines
+    lines.push(@board[0..2].join(''))
+    lines.push(@board[3..5].join(''))
+    lines.push(@board[6..8].join(''))
+    # vertical lines
+    lines.push([@board[0], @board[3], @board[6]].join(''))
+    lines.push([@board[1], @board[4], @board[7]].join(''))
+    lines.push([@board[2], @board[5], @board[8]].join(''))
+    # diagonal lines
+    lines.push([@board[0], @board[4], @board[8]].join(''))
+    lines.push([@board[2], @board[4], @board[6]].join(''))
+
+    if lines.include?("XXX")
+      puts "#{@player1} Wins!"
+      true
+    elsif lines.include?("OOO")
+      puts "#{@player2} Wins!"
+      true
+    else
+      false
+    end
+  end
+
   private
 
   def assign_players
@@ -37,7 +62,6 @@ class TicTacToe
 end
 
 puts 'Welcome to Tic Tac Toe!'
-
 puts "Please enter Player 1's name"
 player1 = gets.chomp
 puts "Please enter Player 2's name"
@@ -50,7 +74,17 @@ current_player = 0
 players = [game.player1, game.player2]
 9.times do
   puts "Your turn, #{players[current_player]}!"
-  game.player_input(gets.chomp.to_i)
+  position = gets.chomp.to_i
+  # prompts user until the input is a square that is not used
+  while position != game.board[position-1].to_i
+    puts 'Please enter a valid position:'
+    position = gets.chomp.to_i
+  end
+  game.player_input(position)
+  # To alternate between the 2 players
   current_player = current_player.zero? ? 1 : 0
-  puts
+  if game.winner?
+    exit
+  end
 end
+puts "Draw!"
