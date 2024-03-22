@@ -1,0 +1,1 @@
+This project aims to create a command line version of the game 'tic tac toe' in Ruby.
